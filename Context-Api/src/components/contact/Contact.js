@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../context';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 class Contact extends Component {
     state = {
@@ -16,8 +19,23 @@ class Contact extends Component {
         })
     }
 
-    deleteContact = (id, dispatch) => {
-        dispatch({ type: 'DELETE_CONTACT', payload: id })
+    // deleteContact = (id, dispatch) => {
+    //     dispatch({ type: 'DELETE_CONTACT', payload: id })
+
+    // }
+
+    // deleteContact = (id, dispatch) => {
+    //     axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`).then(res => dispatch({ type: 'DELETE_CONTACT', payload: id }))
+    // }
+
+    deleteContact = async (id, dispatch) => {
+        try {
+            axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+            dispatch({ type: 'DELETE_CONTACT', payload: id });
+        }
+        catch (e) {
+            dispatch({ type: 'DELETE_CONTACT', payload: id });
+        }
 
     }
 
@@ -33,6 +51,7 @@ class Contact extends Component {
                             <h4>{name} {' '}
                                 <i onClick={this.showOnClick} className="fas fa-sort-down" style={{ cursor: 'pointer' }}></i>
                                 <i onClick={this.deleteContact.bind(this, id, dispatch)} className="fas fa-times" style={{ color: 'red', float: 'right', cursor: 'pointer' }}></i>
+                                <Link to={`/contact/edit/${id}`}> <i className="fas fa-pencil-alt" style={{ color: 'black', float: 'right', marginRight: '1rem', cursor: 'pointer' }}></i></Link>
                             </h4>
                             {showDetails ? (<ul className="list-group">
                                 <li className="list-group-item">Email: {email}</li>

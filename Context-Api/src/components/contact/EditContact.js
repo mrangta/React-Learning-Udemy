@@ -4,12 +4,23 @@ import TextInputGroup from '../layout/TextInputGroup';
 import axios from 'axios';
 //import uuid from 'uuid';
 
-class AddContact extends Component {
+class EditContact extends Component {
     state = {
         name: "",
         email: "",
         phone: "",
         errors: {}
+    }
+
+    async componentDidMount() {
+        const { id } = this.props.match.params;
+        const res = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
+        const contact = res.data;
+        this.setState({
+            name: contact.name,
+            email: contact.email,
+            phone: contact.phone
+        })
     }
 
     onChange = (e) => {
@@ -33,25 +44,16 @@ class AddContact extends Component {
         }
 
 
-        const newContact = {
-            // id: uuid(),
+        const updContact = {
             name,
             email,
             phone
         }
+        const { id } = this.props.match.params;
 
-        // dispatch({ type: 'ADD_CONTACT', payload: newContact })
+        const res = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, updContact);
+        dispatch({ type: 'UPDATE_CONTACT', payload: res.data });
 
-        // axios.post('https://jsonplaceholder.typicode.com/users', newContact).then(res => dispatch({ type: 'ADD_CONTACT', payload: res.data }))
-
-        const res = await axios.post('https://jsonplaceholder.typicode.com/users', newContact);
-        dispatch({ type: 'ADD_CONTACT', payload: res.data });
-        this.setState({
-            name: "",
-            email: "",
-            phone: ""
-
-        })
 
         this.props.history.push('/');
 
@@ -64,13 +66,13 @@ class AddContact extends Component {
                     const { dispatch } = value;
                     return (
                         <div className="card mb-3">
-                            <div className="card-header">Add Contact</div>
+                            <div className="card-header">Edit Contact</div>
                             <div className="card-body">
                                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                                     <TextInputGroup label="Name" name="name" placeholder="Enter Name" value={name} onChange={this.onChange} error={errors.name} />
                                     <TextInputGroup label="Email" name="email" type="email" placeholder="Enter Email" value={email} onChange={this.onChange} error={errors.email} />
-                                    <TextInputGroup label="Phone" name="phone" type="number" placeholder="Enter Phone" value={phone} onChange={this.onChange} error={errors.phone} />
-                                    <input type="submit" className="btn-danger btn-block" value="Add Contacts" />
+                                    <TextInputGroup label="Phone" name="phone" placeholder="Enter Phone" value={phone} onChange={this.onChange} error={errors.phone} />
+                                    <input type="submit" className="btn-danger btn-block" value="Update Contacts" />
                                 </form>
                             </div>
                         </div>
@@ -82,4 +84,4 @@ class AddContact extends Component {
     }
 }
 
-export default AddContact;
+export default EditContact;

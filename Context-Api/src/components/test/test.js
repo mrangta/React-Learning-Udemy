@@ -3,37 +3,43 @@ import React, { Component } from 'react'
 export default class Test extends Component {
 
     state = {
-        test: 'test'
+        title: '',
+        body: ''
     };
     componentDidMount() {
-        console.log("Component Did Mount..");
+        fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then(response => response.json())
+            .then(data => this.setState({
+                title: data.title,
+                body: data.body
+            }))
     }
 
-    componentWillMount() {
-        console.log("Component Will Mount..");
-    }
+    // componentWillMount() {
+    //     console.log("Component Will Mount..");
+    // }
 
-    componentDidUpdate() {
-        console.log("Component Did Update..");
-    }
+    // componentDidUpdate() {
+    //     console.log("Component Did Update..");
+    // }
 
-    componentWillUpdate() {
-        console.log("Component Will Update..");
-    }
+    // componentWillUpdate() {
+    //     console.log("Component Will Update..");
+    // }
 
-    componentWillReceiveProps(nextProps, nextState) {
-        console.log("Component Will Receive Props..");
-    }
+    // componentWillReceiveProps(nextProps, nextState) {
+    //     console.log("Component Will Receive Props..");
+    // }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-            test: 'something'
-        };
-    }
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //     return {
+    //         title: 'something'
+    //     };
+    // }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log("getSnapshotBeforeUpdate");
-    }
+    // getSnapshotBeforeUpdate(prevProps, prevState) {
+    //     console.log("getSnapshotBeforeUpdate");
+    // }
 
     render() {
         return (

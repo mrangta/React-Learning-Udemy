@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from './context';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NotFound from './components/pages/NotFound';
+import Test from './components/test/test';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Contacts} />
             <Route exact path="/contact/add" component={AddContact} />
+            <Route exact path="/test" component={Test} />
             <Route component={NotFound} />
           </Switch>
         </div>

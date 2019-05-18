@@ -16,7 +16,7 @@ class AddContact extends Component {
     }
     onSubmit = (dispatch, e) => {
         e.preventDefault();
-        const { name, email, phone, errors } = this.state;
+        const { name, email, phone } = this.state;
 
         if (name === '') {
             this.setState({ errors: { name: 'Name is Required' } })
